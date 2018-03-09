@@ -8,15 +8,24 @@ import numpy as np
 ##########################################
 
 df = pd.read_csv('stackoverflow.csv')
+baseSize = len(df);
+
+print(baseSize, "rows imported.")
 
 # Count countries and exclude non-relevent
+print("Filtering by countries...")
 countries = pd.DataFrame(df.groupby('Country').size())
 countries.columns = ['CountryCount']
 countries = countries[countries.CountryCount >= 10]
 countries = countries.dropna()
 countries['Country'] = countries.index
 df = df[df.Country.isin(countries.Country)]
+print(baseSize - len(df), "rows filtered. (", len(df), "rows )");
+baseSize = len(df)
 
 # Select only JavaScript
+print("Filtering by languages (JavaScript)...")
 df = df[pd.notnull(df['HaveWorkedLanguage'])]
 df = df[df.HaveWorkedLanguage.str.contains('JavaScript')]
+print(baseSize - len(df), "rows filtered. (", len(df), "rows )");
+baseSize = len(df)
