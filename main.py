@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 ##########################################
 #                                        #
@@ -8,15 +9,13 @@ import pandas as pd
 
 df = pd.read_csv('stackoverflow.csv')
 
-# Count countries
-countryCount = {}
-for i in df['Country']:
-    try:
-        countryCount[i] += 1
-    except KeyError:
-        countryCount[i] = 1
+# Count countries and exclude non-relevent
+countries = pd.DataFrame(df.groupby('Country').size())
+countries.columns = ['CountryCount']
+countries = countries[countries.CountryCount >= 10]
+countries = countries.dropna()
+countries['Country'] = countries.index
+df = df[df.Country.isin(countries.Country)]
 
-# Eliminate non-relevent countries
-for key, value in countryCount.items():
-    if(value < 10):
-        df = df[df.Country != key]
+
+# Select only JavaScript
