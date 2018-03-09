@@ -36,4 +36,6 @@ countries = pd.DataFrame(df.groupby('Country').size())
 countries.columns = ['CountryCount']
 countries = countries.sort_values(['CountryCount'], ascending=False)
 countries.plot(kind='bar')
+print("Top five JavaScript countries :")
+print (countries[:5])
 plt.show()
