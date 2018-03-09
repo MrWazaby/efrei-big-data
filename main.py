@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 ##########################################
 #                                        #
@@ -29,3 +30,10 @@ df = df[pd.notnull(df['HaveWorkedLanguage'])]
 df = df[df.HaveWorkedLanguage.str.contains('JavaScript')]
 print(baseSize - len(df), "rows filtered. (", len(df), "rows )");
 baseSize = len(df)
+
+# Generate graph
+countries = pd.DataFrame(df.groupby('Country').size())
+countries.columns = ['CountryCount']
+countries = countries.sort_values(['CountryCount'], ascending=False)
+countries.plot(kind='bar')
+plt.show()
