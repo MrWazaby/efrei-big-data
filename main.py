@@ -17,5 +17,6 @@ countries = countries.dropna()
 countries['Country'] = countries.index
 df = df[df.Country.isin(countries.Country)]
 
-
 # Select only JavaScript
+df = df[pd.notnull(df['HaveWorkedLanguage'])]
+df = df[df.HaveWorkedLanguage.str.contains('JavaScript')]
