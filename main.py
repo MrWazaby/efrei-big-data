@@ -47,23 +47,32 @@ print('\n\n')
 #                                        #
 ##########################################
 
+# Import a clean Stackoverflow df and the happiness excel
 df = pd.read_csv('stackoverflow.csv')
 dfFiltered = pd.DataFrame()
 dfHappiness = pd.read_excel('hapiness.xlsx', sheet_name="Figure2.2 WHR 2017")
+
+# Merge and sort
 df = df.merge(dfHappiness, left_on='Country', right_on='Country')
 df = df.sort_values(by=['Happiness score'], ascending=False)
 df = df.reset_index(drop=True)
+
+# Display the top 1
 bestCountry = df.at[0, "Country"]
 print("The country where people are the most happy is : ")
 print(df.at[0, "Country"], " with ", df.at[0, "Happiness score"])
 bestScore = df.at[0, "Happiness score"]
 df = df[df.Country.str.contains(bestCountry)]
 print("There is ", len(df), " answers for ", bestCountry)
+
+# Check for JavaScript devs in the top 1 contry
 total = len(df)
 df = df[pd.notnull(df['HaveWorkedLanguage'])]
 dfFiltered = df[df.HaveWorkedLanguage.str.contains('JavaScript')]
 print("There is ", len(dfFiltered), " JavaScripters in ", bestCountry)
 print(total - len(dfFiltered), " don't like JavaScript :(")
+
+# Check salaries for all techs
 print("The average salary for ", bestCountry, " is ", df["Salary"].mean())
 print("The average JavaScript salary for ", bestCountry, " is ", dfFiltered["Salary"].mean())
 print('\n')
@@ -75,11 +84,15 @@ df.plot.hist(bins=50)
 plt.show()
 print('\n')
 print("The distribution in JavaScript for ", bestCountry)
+
+# Check salaries for JavaScript
 dfFiltered = dfFiltered.sort_values(by=['Salary'])
 dfFiltered = dfFiltered.reset_index(drop=True)
 dfFiltered = dfFiltered["Salary"]
 dfFiltered.plot.hist(bins=50)
 plt.show()
+
+# Check differences with France
 frenchScore = dfHappiness.loc[dfHappiness['Country'] == "France", "Happiness score"].item()
 print('\n')
 print("France score is ", frenchScore, " so ", bestCountry, "is ", bestScore - frenchScore, " points above.")
