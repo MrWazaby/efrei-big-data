@@ -21,14 +21,14 @@ countries = countries[countries.CountryCount >= 10]
 countries = countries.dropna()
 countries['Country'] = countries.index
 df = df[df.Country.isin(countries.Country)]
-print(baseSize - len(df), "rows filtered. (", len(df), "rows )");
+print(baseSize - len(df), "rows filtered. (", len(df), "rows )\n");
 baseSize = len(df)
 
 # Select only JavaScript
 print("Filtering by languages (JavaScript)...")
 df = df[pd.notnull(df['HaveWorkedLanguage'])]
 df = df[df.HaveWorkedLanguage.str.contains('JavaScript')]
-print(baseSize - len(df), "rows filtered. (", len(df), "rows )");
+print(baseSize - len(df), "rows filtered. (", len(df), "rows )\n");
 baseSize = len(df)
 
 # Generate graph
@@ -38,7 +38,8 @@ countries = countries.sort_values(['CountryCount'], ascending=False)
 countries.plot(kind='bar')
 print("Top five JavaScript countries :")
 print(countries[:5])
-#plt.show()
+plt.show()
+print('\n\n')
 
 ##########################################
 #                                        #
@@ -65,17 +66,20 @@ print("There is ", len(dfFiltered), " JavaScripters in ", bestCountry)
 print(total - len(dfFiltered), " don't like JavaScript :(")
 print("The average salary for ", bestCountry, " is ", df["Salary"].mean())
 print("The average JavaScript salary for ", bestCountry, " is ", dfFiltered["Salary"].mean())
+print('\n')
 print("The distribution for all techs in ", bestCountry)
 df = df.sort_values(by=['Salary'])
 df = df.reset_index(drop=True)
 df = df["Salary"]
 df.plot.hist(bins=50)
-#plt.show()
+plt.show()
+print('\n')
 print("The distribution in JavaScript for ", bestCountry)
 dfFiltered = dfFiltered.sort_values(by=['Salary'])
 dfFiltered = dfFiltered.reset_index(drop=True)
 dfFiltered = dfFiltered["Salary"]
 dfFiltered.plot.hist(bins=50)
-#plt.show()
+plt.show()
 frenchScore = dfHappiness.loc[dfHappiness['Country'] == "France", "Happiness score"].item()
+print('\n')
 print("France score is ", frenchScore, " so ", bestCountry, "is ", bestScore - frenchScore, " points above.")
