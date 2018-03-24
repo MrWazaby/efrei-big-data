@@ -6,7 +6,7 @@ Big data project for Efrei
 pip install pandas
 pip install numpy
 pip install matplotlib
-pip install pip install xlrd
+pip install xlrd
 ```
 
 You also need `tk` to display the graphs with pyplot.
